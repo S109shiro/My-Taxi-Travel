@@ -1,6 +1,6 @@
 import java.sql.*;
 public class Crud {
-    // Crea un registro en la tabla de usuarios pasando parametros al metodo.
+    // Metodo que crea un registro en la tabla de usuarios pasando parametros al metodo.
     public void crearUsuario(String nombre, String primer_apellido, String segundo_apellido, byte edad, int numero_identificacion, String email, String sexo, String documento_identidad, String numero_telefono, java.sql.Date fecha_nacimiento, float calificacion_media, String historial_viajes){
         String query = "insert into usuario (nombre, primer_apellido, segundo_apellido, edad, numero_identificacion, email, sexo, documento_identidad, numero_telefono, fecha_nacimiento, calificacion_media, historial_viajes) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try{
@@ -26,10 +26,10 @@ public class Crud {
         }
     }
 
-    // Consulta un registro de un usuario por medio de un ID pasado por parametro.
-    public void leerDatosUsuario(int id_usuario){
+    // Metodo que consulta todos los registros de la tabla usuario.
+    public void leerDatosUsuario(){
         String salida = "ID: %d, Nombre: %s, Primer apellido: %s, Segundo apellido: %s, Edad: %d, Numero identificacion: %d, Email: %s, Sexo: %s, Documento de identidad: %s, Numero de telefono: %s, Fecha de nacimiento: %s, Calificacion media: %f, Historial de viajes: %s";
-        String query = "select * from usuario where id_usuario =" + id_usuario;
+        String query = "select * from usuario";
         boolean exist = false;
         try{
             Connection conexion = ConexionDB.conectar();
@@ -61,5 +61,25 @@ public class Crud {
             System.err.println("Error al mostrar los datos");
             ex.printStackTrace();
         }
+    }
+
+    // Metodo que realiza actualizaciones a la table usuario e indica si hubo un cambio o no
+    public void modificarDatosUsuario(String columna_actualizar, String nuevo_valor, int id){
+        String query = "Update usuario set " + columna_actualizar + " = ? where id_usuario = ?";
+        byte changes;
+        try{
+            Connection conexion = ConexionDB.conectar();
+            PreparedStatement preparacion = conexion.prepareStatement(query);
+            preparacion.setString(1, nuevo_valor);
+            preparacion.setInt(2, id);
+
+            changes = (byte) preparacion.executeUpdate();
+            System.out.println(String.format("Se han realizado cambios a: %d filas", changes));
+
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar los datos");
+            e.printStackTrace();
+        }
+
     }
 }

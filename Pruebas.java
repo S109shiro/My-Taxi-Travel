@@ -7,8 +7,9 @@ public class Pruebas {
 
         // Creacion de un objeto por medio de la clase CRUD
         Crud crear = new Crud();
-        //crear.crearUsuario("Reo", "Gonzalez", "Rodriguez", (byte) 21, 20879223,"shola@gmail.com", "Femboy", "https//documento.pdf", "3003367605", Date.valueOf("2004-10-09"), (float)4.8, "[\"Bogota\", \"Medellin\"]");
-        crear.leerDatosUsuario(2);
+        //crear.crearUsuario("JuanPa", "Mendoza", "Torres", (byte) 33, 23249223,"hola@gmail.com", "Masculino", "https//documento.pdf", "3003367605", Date.valueOf("2004-10-09"), (float)4.8, "[\"Bogota\", \"Medellin\"]");
+        //crear.leerDatosUsuario();
+        crear.modificarDatosUsuario("Nombre", "Rodolfo", 5);
 
     }
 }
