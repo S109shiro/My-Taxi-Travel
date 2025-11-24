@@ -115,8 +115,8 @@ public class Crud {
                 while(true){
                     // Obtenemos confirmacion por teclado
                     Scanner opcion = new Scanner(System.in);
-                    System.out.print(String.format("¿Estas seguro de eliminar a %s relacionado con el id %d? (y/n): ", existenciaId.getString("nombre"), id));
-                    decision = opcion.next().charAt(0);
+                    System.out.println(String.format("¿Estas seguro de eliminar a %s relacionado con el id %d? (y/n): ", existenciaId.getString("nombre"), id));
+                    decision = Character.toLowerCase(opcion.next().charAt(0));  // Transformar en minusculas
 
                     //Confirmamos si quiere eliminar el usuario
                     if(decision == 'y'){
