@@ -21,7 +21,11 @@ public class Crud {
             preparacion.setFloat(11, calificacion_media);
             preparacion.setString(12, historial_viajes);
             preparacion.executeUpdate();
-            System.out.println("Datos Insertados");
+
+            ResultSet obtenerId = preparacion.executeQuery("select id_usuario from usuario where numero_identificacion = " + numero_identificacion);
+            while (obtenerId.next()){
+                System.out.println(String.format("Datos Insertados con el ID: %d", obtenerId.getInt("id_usuario")));
+            }
         }catch (SQLException ex){
             System.err.println("Error al insertar datos");
             ex.printStackTrace();
@@ -31,19 +35,19 @@ public class Crud {
     // Metodo que consulta todos los registros de la tabla usuario.
     public void leerDatosUsuario(){
         // Definicion de la salida y query de consulta
-        String salida = "ID: %d, Nombre: %s, Primer apellido: %s, Segundo apellido: %s, Edad: %d, Numero identificacion: %d, Email: %s, Sexo: %s, Documento de identidad: %s, Numero de telefono: %s, Fecha de nacimiento: %s, Calificacion media: %f, Historial de viajes: %s";
+        String salida = "ID: %d, Nombre: %s, Primer apellido: %s, Segundo apellido: %s, Edad: %d, Numero identificacion: %d, Email: %s, Sexo: %s, Documento de identidad: %s, Numero de telefono: %s, Fecha de nacimiento: %s, Calificacion media: %f, Historial de viajes: %s \n";
         String query = "select * from usuario";
         try{
             Connection conexion = ConexionDB.conectar();
             PreparedStatement preparacion = conexion.prepareStatement(query);
             ResultSet resultado = preparacion.executeQuery();
 
-            if(!resultado.isBeforeFirst()){
+            if(!resultado.next()){
                 System.err.print("No hay datos que mostrar en la tabla usuario");
             }
             else {
                 // Obtenemos los datos del query con el resultado
-                while(resultado.next()){ // True si existen datos
+                do{
                     int id = resultado.getInt("id_usuario");
                     String nombre = resultado.getString("nombre");
                     String primer_apellido = resultado.getString("primer_apellido");
@@ -60,6 +64,7 @@ public class Crud {
                     // Salida de cada dato por consola
                     System.out.print(String.format(salida, id, nombre, primer_apellido, segundo_apellido, edad, numero_identificacion, email, sexo, documento_identidad, numero_telefono, fecha_nacimiento, calificacion_media , historial_viajes));
                 }
+                while(resultado.next()); // True si existen datos
             }
         }catch (SQLException ex){
             System.err.println("Error al mostrar los datos");
