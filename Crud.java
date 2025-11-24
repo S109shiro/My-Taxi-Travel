@@ -1,7 +1,9 @@
 import java.sql.*;
+import java.util.Scanner;
+
 public class Crud {
     // Metodo que crea un registro en la tabla de usuarios pasando parametros al metodo.
-    public void crearUsuario(String nombre, String primer_apellido, String segundo_apellido, byte edad, int numero_identificacion, String email, String sexo, String documento_identidad, String numero_telefono, java.sql.Date fecha_nacimiento, float calificacion_media, String historial_viajes){
+    public void crearUsuario(String nombre, String primer_apellido, String segundo_apellido, byte edad, int numero_identificacion, String email, String sexo, String documento_identidad, String numero_telefono, Date fecha_nacimiento, float calificacion_media, String historial_viajes){
         String query = "insert into usuario (nombre, primer_apellido, segundo_apellido, edad, numero_identificacion, email, sexo, documento_identidad, numero_telefono, fecha_nacimiento, calificacion_media, historial_viajes) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try{
             Connection conexion = ConexionDB.conectar();
@@ -28,16 +30,16 @@ public class Crud {
 
     // Metodo que consulta todos los registros de la tabla usuario.
     public void leerDatosUsuario(){
+        // Definicion de la salida y query de consulta
         String salida = "ID: %d, Nombre: %s, Primer apellido: %s, Segundo apellido: %s, Edad: %d, Numero identificacion: %d, Email: %s, Sexo: %s, Documento de identidad: %s, Numero de telefono: %s, Fecha de nacimiento: %s, Calificacion media: %f, Historial de viajes: %s";
         String query = "select * from usuario";
-        boolean exist = false;
         try{
             Connection conexion = ConexionDB.conectar();
             PreparedStatement preparacion = conexion.prepareStatement(query);
             ResultSet resultado = preparacion.executeQuery();
 
+            // Obtenemos los datos del query con el resultado
             while(resultado.next()){
-                exist = true;
                 int id = resultado.getInt("id_usuario");
                 String nombre = resultado.getString("nombre");
                 String primer_apellido = resultado.getString("primer_apellido");
@@ -51,11 +53,8 @@ public class Crud {
                 String fecha_nacimiento = resultado.getString("fecha_nacimiento");
                 float calificacion_media = resultado.getFloat("calificacion_media");
                 String historial_viajes = resultado.getString("historial_viajes");
-
+                // Salida de cada dato por consola
                 System.out.println(String.format(salida, id, nombre, primer_apellido, segundo_apellido, edad, numero_identificacion, email, sexo, documento_identidad, numero_telefono, fecha_nacimiento, calificacion_media , historial_viajes));
-            }
-            if(!exist){
-                System.err.println("No existe un usuario con ese ID");
             }
         }catch (SQLException ex){
             System.err.println("Error al mostrar los datos");
@@ -78,6 +77,57 @@ public class Crud {
 
         } catch (SQLException e) {
             System.err.println("Error al actualizar los datos");
+            e.printStackTrace();
+        }
+
+    }
+
+    // Metodo para eliminar a un usuario de la tabla por medio de su id
+    public void eliminarUsuario(int id){
+        // Establecemos dos querys
+        String query = "delete from usuario where id_usuario = ?";
+        String queryValidacionID = "select * from usuario where id_usuario = ?";
+        // Definicion de una variable para la confirmacion del delete del usuario
+        char decision;
+        try{
+            Connection conexion = ConexionDB.conectar();
+
+            // Validacion del id en la tabla usuarios
+            PreparedStatement validacionID = conexion.prepareStatement(queryValidacionID);
+            validacionID.setInt(1, id);
+            ResultSet existenciaId = validacionID.executeQuery();
+
+            // Si no existe un usuario cn ese ID entra aca
+            if(!existenciaId.next()){
+                System.err.print("No existe ese registro");
+            }
+            // Caso contrario entra en este bloque
+            else{
+                // Obtencion del id existente en la tabla
+                PreparedStatement preparar = conexion.prepareStatement(query);
+                preparar.setInt(1, id);
+
+                while(true){
+                    // Obtenemos confirmacion por teclado
+                    Scanner opcion = new Scanner(System.in);
+                    System.out.print(String.format("¿Estas seguro de eliminar a %s relacionado con el id %d? (y/n): ", existenciaId.getString("nombre"), id));
+                    decision = opcion.next().charAt(0);
+
+                    //Confirmamos si quiere eliminar el usuario
+                    if(decision == 'y'){
+                        System.out.print(String.format("Se han eliminado: %d registros", preparar.executeUpdate()));
+                        break;
+                    }else if(decision == 'n'){
+                        System.out.print("Datos no eliminados");
+                        break;
+                    }
+                    else{
+                        System.err.println("Ingresa una opcion valida.");
+                    }
+                }
+            }
+
+        }catch (SQLException e){
             e.printStackTrace();
         }
 
