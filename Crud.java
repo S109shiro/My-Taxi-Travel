@@ -38,23 +38,28 @@ public class Crud {
             PreparedStatement preparacion = conexion.prepareStatement(query);
             ResultSet resultado = preparacion.executeQuery();
 
-            // Obtenemos los datos del query con el resultado
-            while(resultado.next()){
-                int id = resultado.getInt("id_usuario");
-                String nombre = resultado.getString("nombre");
-                String primer_apellido = resultado.getString("primer_apellido");
-                String segundo_apellido = resultado.getString("segundo_apellido");
-                byte edad = resultado.getByte("edad");
-                int numero_identificacion = resultado.getInt("numero_identificacion");
-                String email = resultado.getString("email");
-                String sexo = resultado.getString("sexo");
-                String documento_identidad = resultado.getString("documento_identidad");
-                String numero_telefono = resultado.getString("numero_telefono");
-                String fecha_nacimiento = resultado.getString("fecha_nacimiento");
-                float calificacion_media = resultado.getFloat("calificacion_media");
-                String historial_viajes = resultado.getString("historial_viajes");
-                // Salida de cada dato por consola
-                System.out.println(String.format(salida, id, nombre, primer_apellido, segundo_apellido, edad, numero_identificacion, email, sexo, documento_identidad, numero_telefono, fecha_nacimiento, calificacion_media , historial_viajes));
+            if(!resultado.isBeforeFirst()){
+                System.err.print("No hay datos que mostrar en la tabla usuario");
+            }
+            else {
+                // Obtenemos los datos del query con el resultado
+                while(resultado.next()){ // True si existen datos
+                    int id = resultado.getInt("id_usuario");
+                    String nombre = resultado.getString("nombre");
+                    String primer_apellido = resultado.getString("primer_apellido");
+                    String segundo_apellido = resultado.getString("segundo_apellido");
+                    byte edad = resultado.getByte("edad");
+                    int numero_identificacion = resultado.getInt("numero_identificacion");
+                    String email = resultado.getString("email");
+                    String sexo = resultado.getString("sexo");
+                    String documento_identidad = resultado.getString("documento_identidad");
+                    String numero_telefono = resultado.getString("numero_telefono");
+                    String fecha_nacimiento = resultado.getString("fecha_nacimiento");
+                    float calificacion_media = resultado.getFloat("calificacion_media");
+                    String historial_viajes = resultado.getString("historial_viajes");
+                    // Salida de cada dato por consola
+                    System.out.print(String.format(salida, id, nombre, primer_apellido, segundo_apellido, edad, numero_identificacion, email, sexo, documento_identidad, numero_telefono, fecha_nacimiento, calificacion_media , historial_viajes));
+                }
             }
         }catch (SQLException ex){
             System.err.println("Error al mostrar los datos");
