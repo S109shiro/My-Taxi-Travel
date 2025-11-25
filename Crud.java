@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Crud {
     // Metodo que crea un registro en la tabla de usuarios pasando parametros al metodo.
-    public void crearUsuario(String nombre, String primer_apellido, String segundo_apellido, byte edad, int numero_identificacion, String email, String sexo, String documento_identidad, String numero_telefono, Date fecha_nacimiento, float calificacion_media, String historial_viajes){
+    public void crearUsuario(String nombre, String primer_apellido, String segundo_apellido, byte edad, int numero_identificacion, String email, String sexo, String documento_identidad, String numero_telefono, Date fecha_nacimiento){
         String query = "insert into usuario (nombre, primer_apellido, segundo_apellido, edad, numero_identificacion, email, sexo, documento_identidad, numero_telefono, fecha_nacimiento, calificacion_media, historial_viajes) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try{
             Connection conexion = ConexionDB.conectar();
@@ -18,8 +18,8 @@ public class Crud {
             preparacion.setString(8, documento_identidad);
             preparacion.setString(9, numero_telefono);
             preparacion.setDate(10, fecha_nacimiento);
-            preparacion.setFloat(11, calificacion_media);
-            preparacion.setString(12, historial_viajes);
+            preparacion.setFloat(11, 0);
+            preparacion.setString(12, "[]");
             preparacion.executeUpdate();
 
             ResultSet obtenerId = preparacion.executeQuery("select id_usuario from usuario where numero_identificacion = " + numero_identificacion);
