@@ -10,7 +10,7 @@ public class ConexionDB {
         Connection conexion = null;
         try{
             conexion = DriverManager.getConnection(url, user, pass);
-            System.out.println("La conexion ha sido exitosa");
+            System.out.println("\nLa conexion con la base de datos ha sido exitosa");
         }catch (SQLException e){
             // Nos ayuda a ver los registros donde le programa tuvo un error.
             e.printStackTrace();

@@ -24,7 +24,7 @@ public class Crud {
 
             ResultSet obtenerId = preparacion.executeQuery("select id_usuario from usuario where numero_identificacion = " + numero_identificacion);
             while (obtenerId.next()){
-                System.out.println(String.format("Datos Insertados con el ID: %d", obtenerId.getInt("id_usuario")));
+                System.out.println(String.format("Datos Insertados con el ID: %d \n", obtenerId.getInt("id_usuario")));
             }
         }catch (SQLException ex){
             System.err.println("Error al insertar datos");
@@ -65,6 +65,7 @@ public class Crud {
                     System.out.print(String.format(salida, id, nombre, primer_apellido, segundo_apellido, edad, numero_identificacion, email, sexo, documento_identidad, numero_telefono, fecha_nacimiento, calificacion_media , historial_viajes));
                 }
                 while(resultado.next()); // True si existen datos
+                System.out.println(); // Espacio
             }
         }catch (SQLException ex){
             System.err.println("Error al mostrar los datos");
@@ -83,7 +84,7 @@ public class Crud {
             preparacion.setInt(2, id);
 
             changes = (byte) preparacion.executeUpdate();
-            System.out.println(String.format("Se han realizado cambios a: %d filas", changes));
+            System.out.println(String.format("Se han realizado cambios a: %d fila \n", changes));
 
         } catch (SQLException e) {
             System.err.println("Error al actualizar los datos");
@@ -109,7 +110,7 @@ public class Crud {
 
             // Si no existe un usuario cn ese ID entra aca
             if(!existenciaId.next()){
-                System.err.print("No existe ese registro");
+                System.out.println("Error. Ese registro no existe en esta tabla.\n");
             }
             // Caso contrario entra en este bloque
             else{
@@ -120,15 +121,15 @@ public class Crud {
                 while(true){
                     // Obtenemos confirmacion por teclado
                     Scanner opcion = new Scanner(System.in);
-                    System.out.println(String.format("¿Estas seguro de eliminar a %s relacionado con el id %d? (y/n): ", existenciaId.getString("nombre"), id));
+                    System.out.print(String.format("¿Estas seguro de eliminar a %s relacionado con el id %d? (y/n): ", existenciaId.getString("nombre"), id));
                     decision = Character.toLowerCase(opcion.next().charAt(0));  // Transformar en minusculas
 
                     //Confirmamos si quiere eliminar el usuario
                     if(decision == 'y'){
-                        System.out.print(String.format("Se han eliminado: %d registros", preparar.executeUpdate()));
+                        System.out.println(String.format("Se han eliminado: %d registros\n", preparar.executeUpdate()));
                         break;
                     }else if(decision == 'n'){
-                        System.out.print("Datos no eliminados");
+                        System.out.println("Datos no eliminados\n");
                         break;
                     }
                     else{

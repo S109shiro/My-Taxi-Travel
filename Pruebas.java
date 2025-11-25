@@ -12,7 +12,7 @@ public class Pruebas {
         System.out.println("Bienvenido al sistema de gestion de My Taxi Travel - Modo Administrador \n¿Que desea realizar?");
         while(true){
             byte opcion;
-            System.out.println("1. Crear un nuevo usuario \n2. Ver los registros ya ingresados \n3. Modificar los registros de un usuario \n4. Eliminar un usuario \n0. Salir del programa");
+            System.out.println("----- Menu Principal -----\n1. Crear un nuevo usuario \n2. Ver los registros ya ingresados \n3. Modificar los registros de un usuario \n4. Eliminar un usuario \n0. Salir del programa");
             Scanner num = new Scanner(System.in);
             opcion = num.nextByte();
             // Toma de decisiones por parte del Administrador
@@ -28,51 +28,51 @@ public class Pruebas {
                 Date fecha_nacimientoSQL;
 
                 // Obtener nombre del nuevo usuario
-                System.out.println("Estas a punto de crear un nuevo usuario. \nIngresa el nombre: ");
+                System.out.print("Estas a punto de crear un nuevo usuario. \nIngresa el nombre: ");
                 Scanner nm = new Scanner(System.in);
                 nombre = nm.next();
 
                 //Obtener apellidos del nuevo usuario
-                System.out.println("Ingresa el primer apellido: ");
+                System.out.print("Ingresa el primer apellido: ");
                 Scanner ap1 = new Scanner(System.in);
                 primer_apellido = ap1.next();
 
-                System.out.println("Ingresa el segundo apellido: ");
+                System.out.print("Ingresa el segundo apellido: ");
                 Scanner ap2 = new Scanner(System.in);
                 segundo_apellido = ap2.nextLine();
 
                 // Obtener la edad del nuevo usuario
-                System.out.println("Ingresa la edad: ");
+                System.out.print("Ingresa la edad: ");
                 Scanner age = new Scanner(System.in);
                 edad = age.nextByte();
 
                 // Obtener numero de identificacion del nuevo usuario
-                System.out.println("Ingresa el numero de identificacion: ");
+                System.out.print("Ingresa el numero de identificacion: ");
                 Scanner nid = new Scanner(System.in);
                 numero_identificacion = nid.nextInt();
 
                 // Obtener el email del nuevo usuario
-                System.out.println("Ingrese el email: ");
+                System.out.print("Ingrese el email: ");
                 Scanner mail = new Scanner(System.in);
                 email = mail.next();
 
                 // Obtener sexo del nuevo usuario
-                System.out.println("Ingrese su respectivo sexo: ");
+                System.out.print("Ingrese su respectivo sexo (10 caracteres): ");
                 Scanner sx = new Scanner(System.in);
                 sexo = sx.next();
 
                 // Obtener url del documento de identidad del nuevo usuario
-                System.out.println("Ingrese el adjunto de su documento de identidad (url): ");
+                System.out.print("Ingrese el adjunto de su documento de identidad (url): ");
                 Scanner doc = new Scanner(System.in);
                 documento_identidad = doc.next();
 
                 // Obtener numero de telefono del nuevo usuario
-                System.out.println("Ingrese su numero de telefono: ");
+                System.out.print("Ingrese su numero de telefono: ");
                 Scanner tel = new Scanner(System.in);
                 numero_telefono = tel.next();
 
                 // Obtener fecha de nacimiento del nuevo usuario, convertirla a sql
-                System.out.println("Ingrese su fecha de nacimiento (AAAA-MM-DD): ");
+                System.out.print("Ingrese su fecha de nacimiento (AAAA-MM-DD): ");
                 Scanner fn = new Scanner(System.in);
                 try{
                     LocalDate fechaSimple = LocalDate.parse(fn.next());
@@ -108,7 +108,7 @@ public class Pruebas {
             // Eliminar un usuario
             else if(opcion == 4){
                 int id;
-                System.out.println("Ingrese el id del registro que desea eliminar: ");
+                System.out.print("\nIngrese el id del registro que desea eliminar: ");
                 Scanner del = new Scanner(System.in);
                 id = del.nextInt();
                 manipulacion.eliminarUsuario(id);
